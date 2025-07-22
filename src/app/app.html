@@ -1,1 +1,10 @@
-<app-barcode-scanner></app-barcode-scanner>
+<!-- <app-topbar [title]="pageTitle"></app-topbar>
+<router-outlet></router-outlet> -->
+
+<body class="min-h-screen flex flex-col bg-gray-100">
+    <app-topbar />
+
+    <main class="mt-4">
+        <router-outlet></router-outlet>
+    </main>
+</body>
