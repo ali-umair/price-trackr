@@ -1,0 +1,7 @@
+<app-barcode-scanner (scanned)="handleScannedBarcode($event)"></app-barcode-scanner>
+
+<p>Price check</p>
+
+<p *ngIf="scannedBarcode" class="mt-2">
+    ✅ <strong>Scanned:</strong> {{ scannedBarcode }}
+</p>

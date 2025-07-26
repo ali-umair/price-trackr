@@ -1,16 +1,12 @@
-<div class="scanner-container" style="text-align: center">
-    <div id="scanner" style="width: 100%; max-width: 400px; margin: auto;"></div>
+<div class="text-center">
+    <div id="scanner" class="w-full max-w-[400px] m-auto"></div>
 
-    <div class="buttons" style="margin-top: 1rem;">
+    <div class="text-xs text-white lg:text-sm">
         <button
-            class="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
-            (click)="startScanner()" [disabled]="isScanning">Start Scanner</button>
+            class="rounded-md bg-slate-800 py-2 px-3 lg:px-4 border border-transparent text-center transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
+            (click)="startScanner()" [disabled]="isScanning">Start Scan</button>
         <button
-            class="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
-            (click)="stopScanner()" [disabled]="!isScanning">Stop Scanner</button>
+            class="rounded-md bg-slate-800 py-2 px-3 lg:px-4 border border-transparent text-center transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
+            (click)="stopScanner()" [disabled]="!isScanning">Stop Scan</button>
     </div>
-
-    <p *ngIf="scannedText" style="margin-top: 1rem;">
-        ✅ <strong>Scanned:</strong> {{ scannedText }}
-    </p>
 </div>

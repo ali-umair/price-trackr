@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { Html5Qrcode, Html5QrcodeScannerState } from 'html5-qrcode';
 
 @Component({
@@ -10,6 +10,8 @@ import { Html5Qrcode, Html5QrcodeScannerState } from 'html5-qrcode';
   imports: [CommonModule]
 })
 export class BarcodeScannerComponent implements OnDestroy {
+  @Output() scanned = new EventEmitter<string>();
+  
   private scanner: Html5Qrcode | null = null;
   private readonly scannerId = 'scanner';
   isScanning = false;
@@ -30,7 +32,7 @@ export class BarcodeScannerComponent implements OnDestroy {
       config,
       (decodedText: string) => {
         this.scannedText = decodedText;
-        alert(`Scanned: ${decodedText}`);
+        this.scanned.emit(decodedText);
         this.stopScanner(); // auto-stop
       },
       (errorMessage) => {
