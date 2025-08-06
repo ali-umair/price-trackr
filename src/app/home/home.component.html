@@ -50,4 +50,10 @@
             Scan Now
         </a>
     </div>
+
+    <div *ngFor="let product of products$ | async" class="text-white">
+        <strong>{{ product.name }}</strong> ({{ product.barcode }}) - Rs. {{ product.price
+        }}
+        <button (click)="deleteProduct(product.id!)">🗑️</button>
+    </div>
 </div>

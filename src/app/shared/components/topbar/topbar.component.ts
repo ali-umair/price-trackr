@@ -4,7 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
-  imports: [ NgIf, RouterLink, RouterLinkActive ],
+  imports: [ RouterLink, RouterLinkActive ],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.css'
 })
