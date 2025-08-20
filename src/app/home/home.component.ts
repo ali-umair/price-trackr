@@ -1,13 +1,13 @@
 import { NgFor, AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Observable } from 'dexie';
 import { Product } from '../data/product-db';
 import { ProductService } from '../shared/services/product.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, NgFor, AsyncPipe],
+  imports: [ NgFor, AsyncPipe, RouterLink ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
