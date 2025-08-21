@@ -7,19 +7,21 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../shared/services/product.service';
 import { Product } from '../data/product-db';
 import { Observable } from 'dexie';
+import { Tooltip } from "../shared/components/tooltip/tooltip";
 
 @Component({
   selector: 'app-scan',
-  imports: [BarcodeScannerComponent, NgIf, ReactiveFormsModule],
+  imports: [BarcodeScannerComponent, NgIf, ReactiveFormsModule, Tooltip],
   templateUrl: './scan.component.html',
   styleUrls: ['./scan.component.css']
 })
 export class ScanComponent {
   isEditMode = false;
   scannedBarcode: string = "";
+  test: string = "skljdfksjdflksjdflksjdflksjfdlskjdflksjdfsdf";
   productName = new FormControl('', Validators.required);
   productId = new FormControl(-1, Validators.required);
-  productPrice = new FormControl('', [Validators.required, Validators.min(0)]);
+  productDesc = new FormControl('', [Validators.required, Validators.min(0)]);
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private productService: ProductService) {
     this.router.events.pipe(
@@ -38,7 +40,7 @@ export class ScanComponent {
   resetForm(): void {
     this.scannedBarcode = "";
     this.productName.reset();
-    this.productPrice.reset();
+    this.productDesc.reset();
   }
 
   async handleScannedBarcode(barcode: string) {
@@ -46,24 +48,24 @@ export class ScanComponent {
     const product: Product | undefined = await this.productService.getByBarcode(barcode);;
     if (product && product.id) {
       this.productName.setValue(product.name);
-      this.productPrice.setValue(product.price.toString());
+      this.productDesc.setValue(product.price.toString());
       this.productId.setValue(product.id);
       this.isEditMode = true;
     } else {
       this.productName.reset();
-      this.productPrice.reset();
+      this.productDesc.reset();
       this.isEditMode = false;
     }
   }
 
   saveProduct(): void {
-    if (!this.scannedBarcode || !this.productName.value || !this.productPrice.value) {
+    if (!this.scannedBarcode || !this.productName.value || !this.productDesc.value) {
       return;
     }
     let product: Product = {
       barcode: this.scannedBarcode,
       name: this.productName.value,
-      price: parseInt(this.productPrice.value)
+      price: parseInt(this.productDesc.value)
     };
 
     if (this.isEditMode) {
