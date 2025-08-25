@@ -3,7 +3,8 @@
         <app-barcode-scanner (scanned)="handleScannedBarcode($event)"></app-barcode-scanner>
     </div>
 
-    <form action="" class="max-w-xs lg:max-w-lg m-6 flex flex-col items-center gap-2 text-gray-900 dark:text-white">
+    <form [formGroup]="productForm" action=""
+        class="max-w-xs lg:max-w-lg m-6 flex flex-col items-center gap-2 text-gray-900 dark:text-white">
 
         <div class="flex items-center gap-2 text-xs m-3">
             <p class="text-gray-900 dark:text-gray-300">Product ID:</p>
@@ -13,25 +14,36 @@
             </p>
         </div>
 
-        <div class="w-full">
-            <input type="text" id="small-input"
-                class="block w-full p-2 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 text-xs dark:bg-transparent dark:border-gray-800 dark:placeholder-gray-300 dark:text-white"
-                placeholder="Enter Product Name" [formControl]="productName" />
+        <div class="w-full relative mb-1">
+            <input type="text" id="product-name" formControlName="productName" required class="peer w-full p-2 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 text-xs 
+           dark:bg-transparent dark:border-gray-600 dark:text-white" />
+            <label for="product-name" class="absolute left-2 top-2 text-white text-xs transition-all 
+           peer-focus:-top-2 peer-focus:text-white peer-focus:bg-black
+           peer-valid:-top-2 peer-valid:text-green-500 peer-valid:bg-black
+           bg-gray-50 dark:bg-black px-1 rounded">
+                Name
+            </label>
         </div>
 
-        <div class="w-full relative">
-            <input type="number" id="small-input"
-                class="block w-full p-2 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 text-xs dark:bg-transparent dark:border-gray-800 dark:placeholder-gray-300 dark:text-white"
-                placeholder="Description" [formControl]="productDesc" />
+        <div class="w-full relative mb-1">
+            <input type="text" id="product-description" formControlName="productDesc" required class="peer w-full p-2 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 text-xs 
+           dark:bg-transparent dark:border-gray-600 dark:text-white" />
+            <label for="product-description" class="absolute left-2 top-2 text-white text-xs transition-all 
+           peer-focus:-top-2 peer-focus:text-white peer-focus:bg-black
+           peer-valid:-top-2 peer-valid:text-green-500 peer-valid:bg-black
+           bg-gray-50 dark:bg-black px-1 rounded">
+                Description
+            </label>
         </div>
 
 
         <div
             class="mt-10 max-w-sm lg:max-w-xl bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-gray-700">
-            <div id="card-header" class="w-full flex justify-between px-4 py-2 border-b border-gray-800">
+            <div id="card-header" class="w-full flex justify-between items-center px-4 py-2 border-b border-gray-800">
                 <h5 class="font-bold tracking-tight text-sm text-gray-900 dark:text-gray-300">Price History</h5>
                 <button
-                    class="px-2 py-1 flex gap-1 items-center rounded hover:cursor-pointer bg-gray-300 text-black hover:bg-black hover:text-white">
+                    class="p-1.5  flex gap-1 items-center rounded-full hover:cursor-pointer bg-green-800 text-white hover:bg-green-700"
+                    (click)="openPriceModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="12" height="12" viewBox="0,0,256,256"
                         style="fill:#1A1A1A;">
                         <g fill="currentcolor" fill-rule="evenodd" stroke="none" stroke-width="1" stroke-linecap="butt"
@@ -43,7 +55,6 @@
                             </g>
                         </g>
                     </svg>
-                    <p class="font-normal text-xs">Price</p>
                 </button>
             </div>
             <div id="card-body" class="">
@@ -69,20 +80,34 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y text-xs divide-gray-200 dark:divide-neutral-700">
-                                        <tr class="text-center">
+                                        <tr *ngFor="let item of priceHistory.value; let i = index" class="text-center">
                                             <td class="px-6 py-4 text-gray-800 dark:text-neutral-200">
-                                                500
+                                                {{ item.rupees }}
                                             </td>
                                             <td
                                                 class="truncate whitespace-nowrap overflow-hidden text-ellipsis px-6 py-4 text-gray-800 dark:text-neutral-200">
-                                                <app-tooltip [text]="'Punjab Cash & Carry'"></app-tooltip>
+                                                <app-tooltip [text]="item.shop"></app-tooltip>
                                             </td>
                                             <td class="px-6 py-4 text-gray-800 dark:text-neutral-200">
-                                                2025
+                                                <app-tooltip [text]="item.date" type="date"></app-tooltip>
                                             </td>
                                             <td class="px-6 py-4 font-medium">
-                                                <button type="button"
-                                                    class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-hidden focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">View</button>
+                                                <button type="button" class="text-blue-700 hover:text-blue-800 hover:cursor-pointer
+                                                ">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                        fill="currentColor" class="size-4">
+                                                        <path
+                                                            d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+                                                        <path
+                                                            d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="priceHistory.value.length === 0">
+                                            <td colspan="4"
+                                                class="p-4 text-center text-gray-500 dark:text-gray-400 italic">
+                                                No price history yet
                                             </td>
                                         </tr>
                                     </tbody>
@@ -94,8 +119,10 @@
             </div>
         </div>
         <!-- Floating Save Button -->
-        <button class="fixed bottom-6 right-6 bg-green-700 p-4 text-white rounded-full shadow-lg
-         hover:bg-blue-700 active:scale-95 transition transform duration-200 ease-in-out disabled:pointer-events-none disabled:opacity-50" [disabled]="!scannedBarcode">
+        <button
+            class="fixed bottom-6 right-6 bg-green-700 p-4 text-white rounded-full shadow-lg
+         hover:bg-blue-700 active:scale-95 transition transform duration-200 ease-in-out disabled:pointer-events-none disabled:opacity-50"
+            [disabled]="productForm.invalid" (click)="saveProduct()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                 <path fill-rule="evenodd"
                     d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
@@ -103,4 +130,72 @@
             </svg>
         </button>
     </form>
+</div>
+
+
+<!-- Price Modal -->
+<div *ngIf="showPriceHistoryModal" class="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
+    <div
+        class="max-w-sm lg:max-w-xl bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-black dark:border-gray-700">
+        <div class="w-full flex justify-between px-4 py-2 border-b border-gray-800">
+            <h3 class="font-bold tracking-tight text-sm text-gray-900 dark:text-gray-300">Price Details</h3>
+        </div>
+
+        <form [formGroup]="newPriceForm" (ngSubmit)="addPrice()"
+            class="p-5 flex flex-col gap-4 w-xs lg:w-lg overflow-hidden">
+
+            <div class="w-full relative ">
+                <input type="number" id="rupees" formControlName="rupees" required class="peer w-full p-2 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 text-xs 
+           dark:bg-transparent dark:border-gray-600 dark:text-white" />
+                <label for="rupees" class="absolute left-2 top-2 text-white text-xs transition-all 
+           peer-focus:-top-2 peer-focus:text-white peer-focus:bg-black
+           peer-valid:-top-2 peer-valid:text-green-500 peer-valid:bg-black
+           bg-gray-50 dark:bg-black px-1 rounded">
+                    Rupees
+                </label>
+            </div>
+
+            <div class="w-full relative">
+                <input type="text" id="shop" formControlName="shop" required class="peer w-full p-2 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 text-xs 
+           dark:bg-transparent dark:border-gray-600 dark:text-white" />
+                <label for="shop" class="absolute left-2 top-2 text-white text-xs transition-all 
+           peer-focus:-top-2 peer-focus:text-white peer-focus:bg-black
+           peer-valid:-top-2 peer-valid:text-green-500 peer-valid:bg-black
+           bg-gray-50 dark:bg-black px-1 rounded">
+                    Shop
+                </label>
+            </div>
+
+            <div class="w-full relative mb-1">
+                <input type="date" id="date" formControlName="date" required class="peer w-full p-2 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 text-xs 
+           dark:bg-transparent dark:border-gray-600 dark:text-white" />
+                <label for="date" class="absolute left-2 top-2 text-white text-xs transition-all 
+           peer-focus:-top-2 peer-focus:text-white peer-focus:bg-black
+           peer-valid:-top-2 peer-valid:text-green-500 peer-valid:bg-black
+           bg-gray-50 dark:bg-black px-1 rounded">
+                    Date
+                </label>
+            </div>
+
+            <div class="flex justify-end gap-2 mt-4 text-xs">
+                <button type="button" (click)="closePriceModal()"
+                    class="px-3 py-2 flex gap-1 items-center rounded hover:cursor-pointer bg-red-800 text-white hover:bg-red-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                        <path
+                            d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                    </svg>
+                    <p>Close</p>
+                </button>
+                <button type="submit" [disabled]="newPriceForm.invalid"
+                    class="px-3 py-2 flex gap-1 items-center rounded hover:cursor-pointer bg-green-800 text-white hover:bg-green-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                        <path fill-rule="evenodd"
+                            d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <p>Add</p>
+                </button>
+            </div>
+        </form>
+    </div>
 </div>

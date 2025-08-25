@@ -8,9 +8,13 @@ import { Component, HostListener, Input } from '@angular/core';
 })
 export class Tooltip {
   @Input() text = '';
+  @Input() type: 'text' | 'date' = 'text';
   open = false;
 
   get previewText() {
+    if (this.type === 'date') {
+      return ''; // no preview text, handled by icon
+    }
     const words = this.text.split(' ');
     return words.length > 1 ? `${words[0]}...` : words[0];
   }

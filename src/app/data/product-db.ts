@@ -4,7 +4,7 @@ export interface Product {
   id?: number;
   barcode: string;
   name: string;
-  price: number;
+  description: string;
 }
 
 export class ProductDB extends Dexie {

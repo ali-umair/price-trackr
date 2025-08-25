@@ -3,10 +3,10 @@
 
     <div class="mt-6 text-xs text-black lg:text-sm">
         <button
-            class="rounded-lg px-4 py-2 bg-gray-300 text-black hover:bg-gray-900 hover:text-gray-300 active:bg-gray-900 active:text-gray-300 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            class="rounded-lg px-4 py-2 bg-green-800 text-white hover:bg-green-700 active:bg-green-900  disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             (click)="startScanner()" [disabled]="isScanning">Start Scan</button>
         <button
-            class="rounded-lg px-4 py-2 bg-gray-300 text-black hover:bg-gray-900 hover:text-gray-300 active:bg-gray-900 active:text-gray-300 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
+            class="rounded-lg px-4 py-2 bg-red-800 text-white hover:bg-red-700 active:bg-red-900 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
             (click)="stopScanner()" [disabled]="!isScanning">Stop Scan</button>
     </div>
 </div>
